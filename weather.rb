@@ -1,6 +1,8 @@
 #!/usr/local/bin/ruby
 #Changelog:
 #
+#v1.3
+#Fixed security issue by removing plaintext API key from script
 #v1.2
 #Added the following options and functionality:
 # -h: There's now a help screen to show you how to use the command
@@ -13,6 +15,7 @@
 
 require 'open-uri'
 require 'json'
+apikey = IO.read(ENV['HOME'] + "/scripts/.keys/wunderground.api").chomp
 
 if ARGV.empty? || ARGV[0] == "-h"
   puts "
@@ -27,12 +30,12 @@ if ARGV.empty? || ARGV[0] == "-h"
 
 "
 elsif ARGV[0] == "-t"
-  open("http://api.wunderground.com/api/APIKEY/forecast/bestfct:1/q/LOCATION.json") do |website|
+  open("http://api.wunderground.com/api/#{apikey}/forecast/bestfct:1/q/pws:KNYSCHEN27.json") do |website|
     forecast = JSON.parse(website.read)["forecast"]["txt_forecast"]["forecastday"]
     puts "Tomorrow's forecast: %s" % forecast[2]['fcttext']
   end
 elsif ARGV[0] == "-n"
-  open("http://api.wunderground.com/api/APIKEY/conditions/bestfct:1/q/LOCATION.json") do |website|
+  open("http://api.wunderground.com/api/#{apikey}/conditions/bestfct:1/q/pws:KNYSCHEN27.json") do |website|
     now = JSON.parse(website.read)["current_observation"]
 	  current = now.values_at(*%w(weather temp_f relative_humidity wind_mph feelslike_f)).map! {
       |element| element.is_a?(String) ? element.downcase : element
