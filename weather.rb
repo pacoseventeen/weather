@@ -30,12 +30,12 @@ if ARGV.empty? || ARGV[0] == "-h"
 
 "
 elsif ARGV[0] == "-t"
-  open("http://api.wunderground.com/api/#{apikey}/forecast/bestfct:1/q/pws:KNYSCHEN27.json") do |website|
+  open("http://api.wunderground.com/api/#{apikey}/forecast/bestfct:1/q/NY/east_glenville.json") do |website|
     forecast = JSON.parse(website.read)["forecast"]["txt_forecast"]["forecastday"]
     puts "Tomorrow's forecast: %s" % forecast[2]['fcttext']
   end
 elsif ARGV[0] == "-n"
-  open("http://api.wunderground.com/api/#{apikey}/conditions/bestfct:1/q/pws:KNYSCHEN27.json") do |website|
+  open("http://api.wunderground.com/api/#{apikey}/conditions/bestfct:1/q/NY/east_glenville.json") do |website|
     now = JSON.parse(website.read)["current_observation"]
 	  current = now.values_at(*%w(weather temp_f relative_humidity wind_mph feelslike_f)).map! {
       |element| element.is_a?(String) ? element.downcase : element
