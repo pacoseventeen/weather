@@ -1,4 +1,4 @@
-#!/usr/local/bin/ruby
+#!/usr/local/opt/ruby/bin/ruby
 #Changelog:
 #
 #v1.3
